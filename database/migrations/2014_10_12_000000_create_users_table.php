@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('verified')->default(User::UNVERFIED_USER);
             $table->string('verification_token')->nullable();
-            $table->string('admin')->default(User::REGULAR_USER;
+            $table->string('admin')->default(User::REGULAR_USER);
             $table->timestamps();
 
         });
