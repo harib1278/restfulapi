@@ -17,6 +17,11 @@ class User extends Authenticatable
     const REGULAR_USER = 'false';
 
     /**
+     * Seller and buyer will use the users table
+     */
+    protected $table = 'users';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
