@@ -5,6 +5,8 @@
 use App\User;
 use App\Category;
 use App\Product;
+use App\Seller;
+use App\Transaction;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -49,5 +51,20 @@ $factory->define(Product::class, function (Faker $faker) {
         'image' => $faker->randomElement(['1.jpg','2.jpg','3.jpg']),
         'seller_id' => User::all()->random()->id,
         //  User::inRandomOrder->first()->id,
+    ];
+});
+
+$factory->define(Transaction::class, function (Faker $faker) {
+
+    // Make sure the seller already has at least 1 product by using the has method
+    $seller = Seller::has('products')->get()->random();
+
+    // Get a user separate from the seller, user transforms to a buyer on purchase
+    $buyer = User::all()->except($seller->id)->random();
+
+    return [
+        'quantity'   => $faker->numberBetween(1,3),
+        'buyer_id'   => $buyer->id,
+        'product_id' => $seller->products()->random()->id,
     ];
 });
