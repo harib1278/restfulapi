@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\User;
+use App\Category;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -28,5 +29,12 @@ $factory->define(User::class, function (Faker $faker) {
         'verification_token' => $verified  == User::VERIFIED_USER ? null : User::generateVerificationCode(),
         'admin' => $verified = $faker->randomElement([User::ADMIN_USER, User::REGULAR_USER]),
 
+    ];
+});
+
+$factory->define(Category::class, function (Faker $faker) {
+    return [
+        'name' => $faker->word,
+        'description' => $faker->paragraph(1), // One paragraph
     ];
 });
