@@ -4,6 +4,7 @@
 
 use App\User;
 use App\Category;
+use App\Product;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -36,5 +37,17 @@ $factory->define(Category::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
         'description' => $faker->paragraph(1), // One paragraph
+    ];
+});
+
+$factory->define(Product::class, function (Faker $faker) {
+    return [
+        'name' => $faker->word,
+        'description' => $faker->paragraph(1), // One paragraph
+        'quantity' => $faker->numberBetween(1, 10),
+        'status' => $faker->randomElement([Product::AVAILABLE_PRODUCT, Product::UNAVAILABLE_PRODUCT]),
+        'image' => $faker->randomElement(['1.jpg','2.jpg','3.jpg']),
+        'seller_id' => User::all()->random()->id,
+        //  User::inRandomOrder->first()->id,
     ];
 });
