@@ -82,7 +82,55 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Obtain user instance
+        $user = User::findOrFail($id);
+
+        $rules = [
+          // Need to validate email against user/userid
+          'email'    => 'email|unique:users,email,'.$user->id,
+          'password' => 'min:6|confirmed',
+          // Ensure role only has 1 of two possible values
+          'admin'    => 'in:'.User::ADMIN_USER.','.User::REGULAR_USER,
+        ];
+
+        // Validate the Request
+        $this->validate($request, $rules);
+
+        // Verify we recived a name update it in the user instance
+        if ($request->has('name')) {
+          $user->name = $request->name;
+        }
+
+        if ($request->has('email') && $user->email != $request->email) {
+          $user->verified = User::UNVERIFIED_USER;
+          // Establish new validation token
+          $user->verification_token = User::generateVerificationCode();
+          $user->email = $request->email;
+        }
+
+        // IF the request has a password we need to Encrypt
+        if ($request->has('password')) {
+          $user->password = bcrypt($request->password);
+        }
+
+        // If the request has an admin
+        if ($request->has('admin')) {
+          if (!$user->isVerified()) {
+            return response()->json(['error' => 'Only verified users can modify the admin field', 'code' => 409], 409);
+          }
+
+          $user->admin = $request->admin;
+        }
+
+        // Check for changes in the user
+        if (!$user->isDirty()) {
+          return response()->json(['error' => 'Updata failed - you need to specify a different value', 'code' => 422], 422);
+        }
+
+        // Save the changes
+        $user->save();
+
+        return response()->json(['data' => $user], 200);
     }
 
     /**
