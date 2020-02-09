@@ -55,6 +55,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Set up the mutator for the name
+     *
+     */
+    public function setNameAttribute($name)
+    {
+      $this->attributes['name'] = strtolower($name);
+    }
+
+    /**
+     * Set up the accessor for the name and return in uppercase
+     *
+     */
+    public function getNameAttribute($name)
+    {
+      return ucwords($name);
+    }
+
+    /**
+     * Set up the mutator for the email
+     *
+     */
+    public function setEmailAttribute($email)
+    {
+      $this->attributes['email'] = strtolower($email);
+    }
+
     public function isVerified()
     {
         return $this->verified == User::VERIFIED_USER;
