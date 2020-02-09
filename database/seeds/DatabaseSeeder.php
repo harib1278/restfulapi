@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         DB::table('category_product')->truncate();
 
         // Define seed creation variables for data
-        $userQuantity = 200;
+        $userQuantity = 1000;
         $categoriesQuantity = 30;
         $productsQuantity = 1000;
         $transactionsQuantity = 1000;
