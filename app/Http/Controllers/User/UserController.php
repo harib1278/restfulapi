@@ -40,7 +40,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        // resurn instance of user if exists
+        $user = User::findOrFail($id);
+
+        return response()->json(['data' => $user], 200);
     }
 
     /**
