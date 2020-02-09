@@ -29,7 +29,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the inputs
+        $rules = [
+          'name' => 'required',
+          'email' => 'required|email|unique:users',
+          'password' => 'required|min:6|confirmed'
+        ];
+
+        // Validate the Request
+        $this->validate($request, $rules);
+
+        $data = $request->all();
+
+        // Encrypt the password
+        $data['data'] = bcrypt($request->password);
+
+        // Assign verified status for the user
+        $data['verified'] = User::UNVERIFIED_USER;
+
+        // Assign verification token
+        $data['verification_token'] = User::generateVerificationCode();
+
+        // All users are regulat users by default
+        $data['admin'] = User::REGULAR_USER;
+
+        $user = User::create($data);
+
+        // Return the filled user instance and 201 success
+        return response()->json(['data' => $user], 201);
     }
 
     /**
