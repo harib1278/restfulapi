@@ -32,9 +32,9 @@ class BuyerController extends Controller
     public function show($id)
     {
       // Return only the buyers who exist
-      $buyers = Buyer::has('transactions')->findOrFail($id);
+      $buyer = Buyer::has('transactions')->findOrFail($id);
 
-      return response()->json(['data' => $buyers], 200);
+      return response()->json(['data' => $buyer], 200);
     }
 
 }
