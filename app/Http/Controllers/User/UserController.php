@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\User;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -146,6 +146,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return response()->json(['data' => $user], 200); 
+        return response()->json(['data' => $user], 200);
     }
 }
