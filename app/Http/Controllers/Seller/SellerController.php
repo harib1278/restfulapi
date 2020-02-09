@@ -16,9 +16,9 @@ class SellerController extends ApiController
     public function index()
     {
       // Return only the sellers who have at least 1 product
-      $buyers = Seller::has('products')->get();
+      $sellers = Seller::has('products')->get();
 
-      return response()->json(['data' => $buyers], 200);
+      return $this->showAll($sellers);
     }
 
     /**
@@ -32,7 +32,7 @@ class SellerController extends ApiController
       // Return only the Sellers who exist
       $seller = Seller::has('products')->findOrFail($id);
 
-      return response()->json(['data' => $seller], 200);
+      return $this->showOne($seller);
     }
 
 }

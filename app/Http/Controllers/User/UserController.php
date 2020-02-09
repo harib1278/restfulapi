@@ -18,7 +18,7 @@ class UserController extends ApiController
         // Returns the whole list of users from the db
         $users = User::all();
 
-        return response()->json(['data' => $users], 200);
+        return $this->showAll($users);
     }
 
     /**
@@ -56,7 +56,7 @@ class UserController extends ApiController
         $user = User::create($data);
 
         // Return the filled user instance and 201 success
-        return response()->json(['data' => $user], 201);
+        return $this->showOne($user, 201);
     }
 
     /**
@@ -70,7 +70,7 @@ class UserController extends ApiController
         // return instance of user if exists
         $user = User::findOrFail($id);
 
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 
     /**
@@ -130,7 +130,7 @@ class UserController extends ApiController
         // Save the changes
         $user->save();
 
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 
     /**
@@ -146,6 +146,6 @@ class UserController extends ApiController
 
         $user->delete();
 
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 }

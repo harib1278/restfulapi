@@ -5,7 +5,7 @@ namespace App\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-trait ApiReponse
+trait ApiResponse
 {
   private function successResponse($data, $code)
   {
@@ -22,7 +22,7 @@ trait ApiReponse
     return $this->successResponse(['data' => $collection], $code);
   }
 
-  protected function showone(Model model, $code = 200)
+  protected function showOne(Model $model, $code = 200)
   {
     return $this->successResponse(['data' => model], $code);
   }

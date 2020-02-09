@@ -18,7 +18,7 @@ class BuyerController extends ApiController
         // Return only the buyers who have transactions
         $buyers = Buyer::has('transactions')->get();
 
-        return response()->json(['data' => $buyers], 200);
+        return $this->showAll($buyers);
     }
 
 
@@ -34,7 +34,7 @@ class BuyerController extends ApiController
       // Return only the buyers who exist
       $buyer = Buyer::has('transactions')->findOrFail($id);
 
-      return response()->json(['data' => $buyer], 200);
+      return $this->showOne($buyers);
     }
 
 }
