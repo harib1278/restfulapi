@@ -67,7 +67,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // resurn instance of user if exists
+        // return instance of user if exists
         $user = User::findOrFail($id);
 
         return response()->json(['data' => $user], 200);
@@ -141,6 +141,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Ensure the user exists and delete
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return response()->json(['data' => $user], 200); 
     }
 }
