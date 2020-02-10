@@ -116,7 +116,7 @@ class UserController extends ApiController
         // If the request has an admin
         if ($request->has('admin')) {
           if (!$user->isVerified()) {
-            return response()->json(['error' => 'Only verified users can modify the admin field', 'code' => 409], 409);
+            return $this->errorResponse('Only verified users can modify the admin field', 409);
           }
 
           $user->admin = $request->admin;
@@ -124,7 +124,7 @@ class UserController extends ApiController
 
         // Check for changes in the user
         if (!$user->isDirty()) {
-          return response()->json(['error' => 'Updata failed - you need to specify a different value', 'code' => 422], 422);
+          return $this->errorResponse('Update failed - you need to specify a different value', 422);
         }
 
         // Save the changes
