@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use App\Traits\ApiResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 
@@ -55,6 +56,13 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ValidationException) {
           return $this->convertValidationExceptionToResponse($exception, $request);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+          // Clean up the name and make lowercase
+          $modelName = mb_strtolower(class_basename($exception->getModel()));
+
+          return $this->errorResponse("404 {$modelName} not found", 404);
         }
         return parent::render($request, $exception);
     }
